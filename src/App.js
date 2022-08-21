@@ -1,36 +1,34 @@
-import logo from "./logo.svg";
-import "./App.css";
+import styles from "./App.module.scss";
 import { useBattery } from "react-use";
+import BatteryInfo from "./components/BatteryInfo";
 
 function App() {
   const batteryState = useBattery();
-  console.log(batteryState)
+  console.log(batteryState);
   if (!batteryState.isSupported) {
     return (
-      <div>
-        <strong>Battery sensor</strong>: <span>not supported</span>
+      <div className={styles.App}>
+        <div><strong>Battery sensor</strong>: <span>not supported</span></div>
       </div>
     );
   }
 
   if (!batteryState.fetched) {
     return (
-      <div>
-        <strong>Battery sensor</strong>: <span>supported</span> <br />
-        <strong>Battery state</strong>: <span>fetching</span>
+      <div className={styles.App}>
+        <div>
+          <strong>Battery sensor</strong>: <span>supported</span>
+        </div>
+        <div>
+          <strong>Battery state</strong>: <span>fetching</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <strong>Battery sensor</strong>:&nbsp;&nbsp; <span>supported</span> <br />
-      <strong>Battery state</strong>: <span>fetched</span> <br />
-      <strong>Charge level</strong>:&nbsp;&nbsp; <span>{ (batteryState.level * 100).toFixed(0) }%</span> <br />
-      <strong>Charging</strong>:&nbsp;&nbsp; <span>{ batteryState.charging ? 'yes' : 'no' }</span> <br />
-      <strong>Charging time</strong>:&nbsp;&nbsp;
-      <span>{ batteryState.chargingTime ? batteryState.chargingTime : 'finished' }</span> <br />
-      <strong>Discharging time</strong>:&nbsp;&nbsp; <span>{ batteryState.dischargingTime }</span>
+    <div className={styles.App}>
+      <BatteryInfo {...batteryState}/>
     </div>
   );
 }
